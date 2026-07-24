@@ -6,6 +6,7 @@ void lvgl_task(void *pvParameters)
 {
     while (1)
     {
+        lv_tick_inc(20);
         lv_timer_handler();
         vTaskDelay(pdMS_TO_TICKS(20));
     }
@@ -17,7 +18,7 @@ void test_task(void *pvParameters)
 {
     while (1)
     {
-        Serial.println("Test Task ...");
+        Serial.printf("TestTask...");
         vTaskDelay(pdMS_TO_TICKS(2000));
     }
     
@@ -26,11 +27,11 @@ void test_task(void *pvParameters)
 void setup()
 {
     Serial.begin(115200);
-
+ 
     demo_lvgl_init();
 
     xTaskCreate(lvgl_task,"LVGL Task",16384,NULL,3,NULL);
-    xTaskCreate(test_task,"Test Task",2048,NULL,1,NULL);
+    xTaskCreate(test_task,"Test Task",2048,NULL,2,NULL);
 
     vTaskStartScheduler();
 

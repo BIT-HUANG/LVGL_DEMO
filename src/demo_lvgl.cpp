@@ -13,6 +13,7 @@ static lv_color_t buf[screenWidth * 10];
 TFT_eSPI tft = TFT_eSPI(screenWidth, screenHeight);
 
 
+
 /*定义 LVGL 屏幕刷新回调函数disp_flush_cb，入参分别为显示驱动指针、刷新区域只读指针、待刷新像素颜色缓存指针*/
 void disp_flush_cb(lv_disp_drv_t *disp, const lv_area_t *area, lv_color_t *color_buf)
 {
@@ -28,14 +29,15 @@ void disp_flush_cb(lv_disp_drv_t *disp, const lv_area_t *area, lv_color_t *color
 /*定义静态LVGL编码器输入设备读取回调函数encoder_read，入参分别为输入设备驱动指针、输入设备数据存储指针*/
 static void encoder_read(lv_indev_drv_t *indev_drv, lv_indev_data_t *data)
 {
-    data -> enc_diff = encoder_rotate(); // 编码器旋转方向与格数，正数顺时针、负数逆时针、0无旋转
-    if (encoder_press()) // 判断编码器是否按下
+    data -> enc_diff = encoder_rotate();
+
+    if (encoder_press())
     {
-        data -> state = LV_INDEV_STATE_RELEASED; // 1为松开
+        data -> state = LV_INDEV_STATE_RELEASED;
     }
     else
     {
-        data -> state = LV_INDEV_STATE_PRESSED; // 0为按下
+        data -> state = LV_INDEV_STATE_PRESSED;
     }
 
 }
