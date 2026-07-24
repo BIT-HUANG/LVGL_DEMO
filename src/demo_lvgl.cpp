@@ -61,8 +61,8 @@ void demo_lvgl_init()
     lv_disp_drv_register(&disp_drv); // 将配置完成的显示驱动注册进LVGL内核，正式启用屏幕输出
 
     /*串口输出初始化信息*/
-    String LVGL_Vesion = String("V") + lv_version_major() + "." + lv_version_minor() + "." +lv_version_patch() + "\n";
-    Serial.println("Hello Arduino !\n"); 
+    String LVGL_Vesion = String("V") + lv_version_major() + "." + lv_version_minor() + "." +lv_version_patch();
+    Serial.println("Hello Arduino !"); 
     Serial.println(LVGL_Vesion); 
 
     /*初始化输入设备*/

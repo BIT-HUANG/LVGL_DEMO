@@ -1,4 +1,4 @@
-#include <demo_lvgl.h>
+#include "demo_lvgl.h"
 
 
 /*LVGL 刷新任务*/
@@ -29,14 +29,14 @@ void setup()
 
     demo_lvgl_init();
 
-    xTaskCreate(lvgl_task,"LVGL Task",8192,NULL,3,NULL);
-//    xTaskCreate(test_task,"Test Task",2048,NULL,1,NULL);
+    xTaskCreate(lvgl_task,"LVGL Task",16384,NULL,3,NULL);
+    xTaskCreate(test_task,"Test Task",2048,NULL,1,NULL);
 
-//    vTaskStartScheduler();
+    vTaskStartScheduler();
 
 }
 
-
+ 
 void loop()
 {
    
