@@ -1,5 +1,5 @@
 #include "demo_lvgl.h"
-
+#include "demo_keypad.h"
 
 /*LVGL 刷新任务*/
 void lvgl_task(void *pvParameters)
@@ -18,7 +18,7 @@ void test_task(void *pvParameters)
 {
     while (1)
     {
-        Serial.printf("TestTask...");
+        Serial.printf("key_state:%d\n",key_state());
         vTaskDelay(pdMS_TO_TICKS(2000));
     }
     

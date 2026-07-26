@@ -10,13 +10,13 @@ void ui_Screen1_screen_init(void)
     ui_Screen1 = lv_obj_create(NULL);
     lv_obj_clear_flag(ui_Screen1, LV_OBJ_FLAG_SCROLLABLE);      /// Flags
 
-    ui_Arc1 = lv_arc_create(ui_Screen1);
-    lv_obj_set_width(ui_Arc1, 85);
-    lv_obj_set_height(ui_Arc1, 86);
-    lv_obj_set_x(ui_Arc1, -33);
-    lv_obj_set_y(ui_Arc1, -9);
-    lv_obj_set_align(ui_Arc1, LV_ALIGN_CENTER);
-    lv_arc_set_value(ui_Arc1, 50);
+    // ui_Arc1 = lv_arc_create(ui_Screen1);
+    // lv_obj_set_width(ui_Arc1, 85);
+    // lv_obj_set_height(ui_Arc1, 86);
+    // lv_obj_set_x(ui_Arc1, -33);
+    // lv_obj_set_y(ui_Arc1, -9);
+    // lv_obj_set_align(ui_Arc1, LV_ALIGN_CENTER);
+    // lv_arc_set_value(ui_Arc1, 50);
 
 
     ui_Switch1 = lv_switch_create(ui_Screen1);

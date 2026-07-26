@@ -1,4 +1,3 @@
-#include "demo_encoder.h"
 #include "demo_lvgl.h"
 
 /*定义分辨率为静态全局变量，常量不可修改*/
@@ -42,11 +41,42 @@ static void encoder_read(lv_indev_drv_t *indev_drv, lv_indev_data_t *data)
 
 }
 
+/*定义静态LVGL物理按键输入设备读取回调函数keypad_read，入参分别为输入设备驱动指针、输入设备数据存储指针*/
+static void keypad_read(lv_indev_drv_t *indev_drv, lv_indev_data_t *data)
+{
+    static uint16_t last_key = 0; // 上一次按键状态
+
+    uint8_t act_key = key_state(); // 获取当前按键状态
+
+    if (act_key != 0)
+    {
+        data->state = LV_INDEV_STATE_PRESSED; // 按键按下
+        switch (act_key)
+        {
+            case 1: data->key = LV_KEY_PREV; break;
+            case 2: data->key = LV_KEY_NEXT; break;
+            case 3: data->key = LV_KEY_LEFT; break;
+            case 4: data->key = LV_KEY_RIGHT; break;
+            case 5: data->key = LV_KEY_ENTER; break;
+            case 6: data->key = LV_KEY_ESC; break;
+        }
+        last_key = (uint16_t)act_key; // 更新上一次按键状态
+    }
+    else
+    {
+        data->state = LV_INDEV_STATE_RELEASED; // 按键释放
+        data->key = last_key;
+        last_key = 0; // 松开必须清空缓存，停止持续上报
+    }
+    //data->key = last_key;
+}
+
 /*LVGL与编码器整体初始化函数*/
 void demo_lvgl_init()
 {
-    encoder_init(); // 初始化编码器
-    
+    //encoder_init(); // 初始化编码器
+    keypad_init(); // 初始化按键
+
     lv_init(); // LVGL图形库底层初始化，分配内存、初始化内核
     tft.begin(); // TFT_eSPI屏幕硬件初始化，启动SPI屏幕驱动
     tft.setRotation(3); // 设置屏幕旋转参数3，调整屏幕画面显示方向
@@ -67,20 +97,29 @@ void demo_lvgl_init()
     Serial.println("Hello Arduino !"); 
     Serial.println(LVGL_Vesion); 
 
-    /*初始化输入设备*/
-    lv_indev_t *indev_encoder = NULL; // 定义LVGL输入设备指针并初始化为空
-    static lv_indev_drv_t encoder_drv; // 定义静态LVGL输入设备驱动结构体
-    lv_indev_drv_init(&encoder_drv); // 对输入设备驱动结构体填充默认初始化参数
-    encoder_drv.type = LV_INDEV_TYPE_ENCODER; // 设置输入设备类型为编码器模式
-    encoder_drv.read_cb = encoder_read; // 绑定编码器数据读取回调函数
-    indev_encoder = lv_indev_drv_register(&encoder_drv); // 返回编码器设备指针保存为全局变量给group设置用
+    // /*初始化编码器输入设备*/
+    // lv_indev_t *indev_encoder = NULL; // 定义LVGL输入设备指针并初始化为空
+    // static lv_indev_drv_t encoder_drv; // 定义静态LVGL输入设备驱动结构体
+    // lv_indev_drv_init(&encoder_drv); // 对输入设备驱动结构体填充默认初始化参数
+    // encoder_drv.type = LV_INDEV_TYPE_ENCODER; // 设置输入设备类型为编码器模式
+    // encoder_drv.read_cb = encoder_read; // 绑定编码器数据读取回调函数
+    // indev_encoder = lv_indev_drv_register(&encoder_drv); // 返回编码器设备指针保存为全局变量给group设置用
+
+    /*初始化按键输入设备*/
+    lv_indev_t *indev_keypad = NULL; // 定义LVGL输入设备指针并初始化为空
+    static lv_indev_drv_t keypad_drv; // 定义静态LVGL输入设备驱动结构体
+    lv_indev_drv_init(&keypad_drv); // 对输入设备驱动结构体填充默认初始化参数
+    keypad_drv.type = LV_INDEV_TYPE_KEYPAD; // 设置输入设备类型为按键模式
+    keypad_drv.read_cb = keypad_read; // 绑定按键数据读取回调函数
+    indev_keypad = lv_indev_drv_register(&keypad_drv); // 返回按键设备指针保存为全局变量给group设置用
 
     /*初始化UI*/
-    lv_group_t *group1; // 定义LVGL控件组指针group1，切换页面时绑定输入设备指针
+    lv_group_t *group1; // 定义LVGL控件组指针group1，切换页面时绑定输入设备指针 
     ui_init(); //ui初始化
     group1 = lv_group_create(); // 创建一个新的控件焦点组，分配内存并返回组句柄赋值给group1
-    lv_indev_set_group(indev_encoder, group1); // 将编码器输入设备与控件组绑定，操作仅作用于该组内控件
-    lv_group_add_obj(group1, ui_Arc1); // 将控件添加到焦点组
+    //lv_indev_set_group(indev_encoder, group1); // 将编码器输入设备与控件组绑定，操作仅作用于该组内控件
+    lv_indev_set_group(indev_keypad,group1); // 将按键输入设备与控件组绑定，操作仅作用于该组内控件
+    //lv_group_add_obj(group1, ui_Arc1); // 将控件添加到焦点组
     lv_group_add_obj(group1, ui_Switch1); // 将控件添加到焦点组
     lv_group_add_obj(group1, ui_Slider1); // 将控件添加到焦点组
     lv_group_add_obj(group1, ui_Checkbox1); // 将控件添加到焦点组
