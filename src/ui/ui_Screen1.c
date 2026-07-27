@@ -10,13 +10,13 @@ void ui_Screen1_screen_init(void)
     ui_Screen1 = lv_obj_create(NULL);
     lv_obj_clear_flag(ui_Screen1, LV_OBJ_FLAG_SCROLLABLE);      /// Flags
 
-    // ui_Arc1 = lv_arc_create(ui_Screen1);
-    // lv_obj_set_width(ui_Arc1, 85);
-    // lv_obj_set_height(ui_Arc1, 86);
-    // lv_obj_set_x(ui_Arc1, -33);
-    // lv_obj_set_y(ui_Arc1, -9);
-    // lv_obj_set_align(ui_Arc1, LV_ALIGN_CENTER);
-    // lv_arc_set_value(ui_Arc1, 50);
+    ui_Arc1 = lv_arc_create(ui_Screen1);
+    lv_obj_set_width(ui_Arc1, 85);
+    lv_obj_set_height(ui_Arc1, 86);
+    lv_obj_set_x(ui_Arc1, -33);
+    lv_obj_set_y(ui_Arc1, -9);
+    lv_obj_set_align(ui_Arc1, LV_ALIGN_CENTER);
+    lv_arc_set_value(ui_Arc1, 50);
 
 
     ui_Switch1 = lv_switch_create(ui_Screen1);
@@ -25,6 +25,15 @@ void ui_Screen1_screen_init(void)
     lv_obj_set_x(ui_Switch1, 43);
     lv_obj_set_y(ui_Switch1, -30);
     lv_obj_set_align(ui_Switch1, LV_ALIGN_CENTER);
+
+    ui_Checkbox1 = lv_checkbox_create(ui_Screen1);
+    lv_checkbox_set_text(ui_Checkbox1, "OK");
+    lv_obj_set_width(ui_Checkbox1, LV_SIZE_CONTENT);   /// 1
+    lv_obj_set_height(ui_Checkbox1, LV_SIZE_CONTENT);    /// 1
+    lv_obj_set_x(ui_Checkbox1, 42);
+    lv_obj_set_y(ui_Checkbox1, 16);
+    lv_obj_set_align(ui_Checkbox1, LV_ALIGN_CENTER);
+    lv_obj_add_flag(ui_Checkbox1, LV_OBJ_FLAG_SCROLL_ON_FOCUS);     /// Flags
 
 
     ui_Slider1 = lv_slider_create(ui_Screen1);
@@ -35,16 +44,6 @@ void ui_Screen1_screen_init(void)
     lv_obj_set_x(ui_Slider1, 2);
     lv_obj_set_y(ui_Slider1, 48);
     lv_obj_set_align(ui_Slider1, LV_ALIGN_CENTER);
-
-
-    ui_Checkbox1 = lv_checkbox_create(ui_Screen1);
-    lv_checkbox_set_text(ui_Checkbox1, "OK");
-    lv_obj_set_width(ui_Checkbox1, LV_SIZE_CONTENT);   /// 1
-    lv_obj_set_height(ui_Checkbox1, LV_SIZE_CONTENT);    /// 1
-    lv_obj_set_x(ui_Checkbox1, 42);
-    lv_obj_set_y(ui_Checkbox1, 16);
-    lv_obj_set_align(ui_Checkbox1, LV_ALIGN_CENTER);
-    lv_obj_add_flag(ui_Checkbox1, LV_OBJ_FLAG_SCROLL_ON_FOCUS);     /// Flags
 
 
 }

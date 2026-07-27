@@ -4,9 +4,9 @@
 #include<Arduino.h>
 
 // ===================== 编码器引脚定义（按你实际接线修改） =====================
-#define ENCODER_A     2    // 编码器A相引脚
-#define ENCODER_B     13    // 编码器B相引脚
-#define ENCODER_C     34    // 编码器中间按压按键引脚
+#define ENCODER_A     33    // 编码器A相引脚
+#define ENCODER_B     32    // 编码器B相引脚
+#define ENCODER_C     26    // 编码器中间按压按键引脚
 
 // ===================== 对外函数声明（.cpp里实现的函数必须在这里声明） =====================
 void encoder_init();                // 编码器初始化

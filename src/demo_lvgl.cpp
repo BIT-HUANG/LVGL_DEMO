@@ -74,7 +74,7 @@ static void keypad_read(lv_indev_drv_t *indev_drv, lv_indev_data_t *data)
 /*LVGL与编码器整体初始化函数*/
 void demo_lvgl_init()
 {
-    //encoder_init(); // 初始化编码器
+    encoder_init(); // 初始化编码器
     keypad_init(); // 初始化按键
 
     lv_init(); // LVGL图形库底层初始化，分配内存、初始化内核
@@ -97,13 +97,13 @@ void demo_lvgl_init()
     Serial.println("Hello Arduino !"); 
     Serial.println(LVGL_Vesion); 
 
-    // /*初始化编码器输入设备*/
-    // lv_indev_t *indev_encoder = NULL; // 定义LVGL输入设备指针并初始化为空
-    // static lv_indev_drv_t encoder_drv; // 定义静态LVGL输入设备驱动结构体
-    // lv_indev_drv_init(&encoder_drv); // 对输入设备驱动结构体填充默认初始化参数
-    // encoder_drv.type = LV_INDEV_TYPE_ENCODER; // 设置输入设备类型为编码器模式
-    // encoder_drv.read_cb = encoder_read; // 绑定编码器数据读取回调函数
-    // indev_encoder = lv_indev_drv_register(&encoder_drv); // 返回编码器设备指针保存为全局变量给group设置用
+    /*初始化编码器输入设备*/
+    lv_indev_t *indev_encoder = NULL; // 定义LVGL输入设备指针并初始化为空
+    static lv_indev_drv_t encoder_drv; // 定义静态LVGL输入设备驱动结构体
+    lv_indev_drv_init(&encoder_drv); // 对输入设备驱动结构体填充默认初始化参数
+    encoder_drv.type = LV_INDEV_TYPE_ENCODER; // 设置输入设备类型为编码器模式
+    encoder_drv.read_cb = encoder_read; // 绑定编码器数据读取回调函数
+    indev_encoder = lv_indev_drv_register(&encoder_drv); // 返回编码器设备指针保存为全局变量给group设置用
 
     /*初始化按键输入设备*/
     lv_indev_t *indev_keypad = NULL; // 定义LVGL输入设备指针并初始化为空
@@ -117,10 +117,10 @@ void demo_lvgl_init()
     lv_group_t *group1; // 定义LVGL控件组指针group1，切换页面时绑定输入设备指针 
     ui_init(); //ui初始化
     group1 = lv_group_create(); // 创建一个新的控件焦点组，分配内存并返回组句柄赋值给group1
-    //lv_indev_set_group(indev_encoder, group1); // 将编码器输入设备与控件组绑定，操作仅作用于该组内控件
+    lv_indev_set_group(indev_encoder, group1); // 将编码器输入设备与控件组绑定，操作仅作用于该组内控件
     lv_indev_set_group(indev_keypad,group1); // 将按键输入设备与控件组绑定，操作仅作用于该组内控件
-    //lv_group_add_obj(group1, ui_Arc1); // 将控件添加到焦点组
+    lv_group_add_obj(group1, ui_Arc1); // 将控件添加到焦点组
     lv_group_add_obj(group1, ui_Switch1); // 将控件添加到焦点组
-    lv_group_add_obj(group1, ui_Slider1); // 将控件添加到焦点组
     lv_group_add_obj(group1, ui_Checkbox1); // 将控件添加到焦点组
+    lv_group_add_obj(group1, ui_Slider1); // 将控件添加到焦点组
 }
