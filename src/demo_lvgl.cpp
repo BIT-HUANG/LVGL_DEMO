@@ -11,6 +11,11 @@ static lv_color_t buf[screenWidth * 10];
 /*调用 TFT_eSPI 显示屏驱动类构造函数，传入屏幕宽高，创建名为 tft 的屏幕驱动实例对象*/
 TFT_eSPI tft = TFT_eSPI(screenWidth, screenHeight);
 
+/*定义全局焦点组与输入设备*/
+lv_group_t *group1 = nullptr;
+lv_group_t *group2 = nullptr;
+lv_indev_t *indev_encoder = nullptr;
+lv_indev_t *indev_keypad = nullptr;
 
 
 /*定义 LVGL 屏幕刷新回调函数disp_flush_cb，入参分别为显示驱动指针、刷新区域只读指针、待刷新像素颜色缓存指针*/
@@ -71,6 +76,15 @@ static void keypad_read(lv_indev_drv_t *indev_drv, lv_indev_data_t *data)
     //data->key = last_key;
 }
 
+/*切换焦点组*/
+void switch_input_group(lv_group_t *target_group)
+{
+    // 统一修改两个输入设备绑定的焦点组
+    lv_indev_set_group(indev_encoder, target_group);
+    lv_indev_set_group(indev_keypad, target_group);
+}
+
+
 /*LVGL与编码器整体初始化函数*/
 void demo_lvgl_init()
 {
@@ -98,7 +112,6 @@ void demo_lvgl_init()
     Serial.println(LVGL_Vesion); 
 
     /*初始化编码器输入设备*/
-    lv_indev_t *indev_encoder = NULL; // 定义LVGL输入设备指针并初始化为空
     static lv_indev_drv_t encoder_drv; // 定义静态LVGL输入设备驱动结构体
     lv_indev_drv_init(&encoder_drv); // 对输入设备驱动结构体填充默认初始化参数
     encoder_drv.type = LV_INDEV_TYPE_ENCODER; // 设置输入设备类型为编码器模式
@@ -106,7 +119,6 @@ void demo_lvgl_init()
     indev_encoder = lv_indev_drv_register(&encoder_drv); // 返回编码器设备指针保存为全局变量给group设置用
 
     /*初始化按键输入设备*/
-    lv_indev_t *indev_keypad = NULL; // 定义LVGL输入设备指针并初始化为空
     static lv_indev_drv_t keypad_drv; // 定义静态LVGL输入设备驱动结构体
     lv_indev_drv_init(&keypad_drv); // 对输入设备驱动结构体填充默认初始化参数
     keypad_drv.type = LV_INDEV_TYPE_KEYPAD; // 设置输入设备类型为按键模式
@@ -114,13 +126,21 @@ void demo_lvgl_init()
     indev_keypad = lv_indev_drv_register(&keypad_drv); // 返回按键设备指针保存为全局变量给group设置用
 
     /*初始化UI*/
-    lv_group_t *group1; // 定义LVGL控件组指针group1，切换页面时绑定输入设备指针 
+
     ui_init(); //ui初始化
+    
     group1 = lv_group_create(); // 创建一个新的控件焦点组，分配内存并返回组句柄赋值给group1
-    lv_indev_set_group(indev_encoder, group1); // 将编码器输入设备与控件组绑定，操作仅作用于该组内控件
-    lv_indev_set_group(indev_keypad,group1); // 将按键输入设备与控件组绑定，操作仅作用于该组内控件
     lv_group_add_obj(group1, ui_Arc1); // 将控件添加到焦点组
     lv_group_add_obj(group1, ui_Switch1); // 将控件添加到焦点组
     lv_group_add_obj(group1, ui_Checkbox1); // 将控件添加到焦点组
     lv_group_add_obj(group1, ui_Slider1); // 将控件添加到焦点组
+    lv_group_add_obj(group1, ui_Button1); // 将控件添加到焦点组
+
+    group2 = lv_group_create();
+    lv_group_add_obj(group2, ui_TextArea1); // 将控件添加到焦点组
+    lv_group_add_obj(group2, ui_Keyboard1); // 将控件添加到焦点组
+    lv_group_add_obj(group2, ui_Button2); // 将控件添加到焦点组
+
+    switch_input_group(group1); // 将输入设备与控件组绑定，操作仅作用于该组内控件
+
 }

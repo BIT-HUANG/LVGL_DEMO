@@ -5,6 +5,7 @@
 
 #include "ui.h"
 #include "ui_helpers.h"
+#include "demo_lvgl_global.h"
 
 ///////////////////// VARIABLES ////////////////////
 
@@ -13,9 +14,20 @@
 void ui_Screen1_screen_init(void);
 lv_obj_t * ui_Screen1;
 lv_obj_t * ui_Arc1;
-lv_obj_t * ui_Switch1;
 lv_obj_t * ui_Slider1;
+lv_obj_t * ui_Switch1;
 lv_obj_t * ui_Checkbox1;
+void ui_event_Button1(lv_event_t * e);
+lv_obj_t * ui_Button1;
+
+
+// SCREEN: ui_Screen2
+void ui_Screen2_screen_init(void);
+lv_obj_t * ui_Screen2;
+lv_obj_t * ui_Keyboard1;
+lv_obj_t * ui_TextArea1;
+void ui_event_Button2(lv_event_t * e);
+lv_obj_t * ui_Button2;
 lv_obj_t * ui____initial_actions0;
 
 ///////////////////// TEST LVGL SETTINGS ////////////////////
@@ -29,6 +41,24 @@ lv_obj_t * ui____initial_actions0;
 ///////////////////// ANIMATIONS ////////////////////
 
 ///////////////////// FUNCTIONS ////////////////////
+void ui_event_Button1(lv_event_t * e)
+{
+    lv_event_code_t event_code = lv_event_get_code(e);
+    lv_obj_t * target = lv_event_get_target(e);
+    if(event_code == LV_EVENT_CLICKED) {
+        switch_input_group(group2); // 直接使用全局group2
+        _ui_screen_change(&ui_Screen2, LV_SCR_LOAD_ANIM_MOVE_BOTTOM, 200, 0, &ui_Screen2_screen_init);
+    }
+}
+void ui_event_Button2(lv_event_t * e)
+{
+    lv_event_code_t event_code = lv_event_get_code(e);
+    lv_obj_t * target = lv_event_get_target(e);
+    if(event_code == LV_EVENT_CLICKED) {
+        switch_input_group(group1); // 直接使用全局group1
+        _ui_screen_change(&ui_Screen1, LV_SCR_LOAD_ANIM_MOVE_TOP, 200, 0, &ui_Screen1_screen_init);
+    }
+}
 
 ///////////////////// SCREENS ////////////////////
 
@@ -39,6 +69,7 @@ void ui_init(void)
                                                true, LV_FONT_DEFAULT);
     lv_disp_set_theme(dispp, theme);
     ui_Screen1_screen_init();
+    ui_Screen2_screen_init();
     ui____initial_actions0 = lv_obj_create(NULL);
     lv_disp_load_scr(ui_Screen1);
 }

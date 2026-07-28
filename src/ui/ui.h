@@ -25,13 +25,23 @@ extern "C" {
 #include "ui_helpers.h"
 #include "ui_events.h"
 
+
 // SCREEN: ui_Screen1
 void ui_Screen1_screen_init(void);
 extern lv_obj_t * ui_Screen1;
 extern lv_obj_t * ui_Arc1;
+extern lv_obj_t * ui_Slider1;
 extern lv_obj_t * ui_Switch1;
 extern lv_obj_t * ui_Checkbox1;
-extern lv_obj_t * ui_Slider1;
+void ui_event_Button1(lv_event_t * e);
+extern lv_obj_t * ui_Button1;
+// SCREEN: ui_Screen2
+void ui_Screen2_screen_init(void);
+extern lv_obj_t * ui_Screen2;
+extern lv_obj_t * ui_Keyboard1;
+extern lv_obj_t * ui_TextArea1;
+void ui_event_Button2(lv_event_t * e);
+extern lv_obj_t * ui_Button2;
 extern lv_obj_t * ui____initial_actions0;
 
 

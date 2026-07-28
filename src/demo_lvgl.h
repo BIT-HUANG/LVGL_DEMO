@@ -7,8 +7,8 @@
 #include "ui/ui.h"
 #include "input/demo_encoder.h"
 #include "input/demo_keypad.h"
+#include "demo_lvgl_global.h"
 
-//extern lv_indev_t *indev_encoder;
 void demo_lvgl_init();
 
 #endif // DEMO_LVGL_H
