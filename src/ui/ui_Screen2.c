@@ -14,6 +14,7 @@ void ui_Screen2_screen_init(void)
     lv_obj_set_width(ui_Keyboard1, 150);
     lv_obj_set_height(ui_Keyboard1, 70);
     lv_obj_set_align(ui_Keyboard1, LV_ALIGN_TOP_MID);
+    lv_keyboard_set_textarea(ui_Keyboard1,ui_TextArea1);
 
     ui_TextArea1 = lv_textarea_create(ui_Screen2);
     lv_obj_set_width(ui_TextArea1, 120);
